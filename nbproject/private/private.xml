@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/model/Utilitarios.java</file>
-            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/model/Clientes.java</file>
-            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/view/Frmcliente.java</file>
-            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/jdbc/TestaConexao.java</file>
+            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/dao/FuncionariosDAO.java</file>
             <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/dao/ClienteDAO.java</file>
-            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/jdbc/ConnectionFactory.java</file>
+            <file>file:/home/jonathan/NetBeansProjects/Projeto-Vendas/src/br/com/projeto/view/Frmfuncionario.java</file>
         </group>
     </open-files>
 </project-private>

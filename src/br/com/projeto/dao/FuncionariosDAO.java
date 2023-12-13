@@ -6,7 +6,7 @@ package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConnectionFactory;
 import br.com.projeto.model.Clientes;
-import br.com.projeto.model.WebServiceCep;
+import br.com.projeto.model.Funcionarios;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,31 +19,35 @@ import javax.swing.JOptionPane;
  *
  * @author jonathan
  */
-public class ClienteDAO {
+public class FuncionariosDAO {
     
     private Connection con;
     
-    public ClienteDAO(){
+    public FuncionariosDAO(){
         this.con = new ConnectionFactory().getConnection();
     }
     
-    public void cadastrarCliente(Clientes obj){
+    public void cadastrarFuncionarios(Funcionarios obj){
         try {
-            String sql = "INSERT INTO tb_clientes(nome, rg, cpf, email, telefone, celular, cep, endereco, numero, complemento, bairro, cidade, estado) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO tb_funcionarios(nome, rg, cpf, email,senha,cargo,nivel_acesso, telefone, celular, cep, endereco, numero, complemento, bairro, cidade, estado)"
+                        +"VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, obj.getNome());
             stmt.setString(2, obj.getRg());
             stmt.setString(3, obj.getCpf());
             stmt.setString(4, obj.getEmail());
-            stmt.setString(5, obj.getTelefone());
-            stmt.setString(6, obj.getCelular());
-            stmt.setString(7, obj.getCep());
-            stmt.setString(8, obj.getEndereco());
-            stmt.setInt(9, obj.getNumero());
-            stmt.setString(10, obj.getComplemento());
-            stmt.setString(11, obj.getBairro());
-            stmt.setString(12, obj.getCidade());
-            stmt.setString(13, obj.getUf());
+            stmt.setString(5, obj.getSenha());
+            stmt.setString(6, obj.getCargo());
+            stmt.setString(7, obj.getNivel_acesso());
+            stmt.setString(8, obj.getTelefone());
+            stmt.setString(9, obj.getCelular());
+            stmt.setString(10, obj.getCep());
+            stmt.setString(11, obj.getEndereco());
+            stmt.setInt(12, obj.getNumero());
+            stmt.setString(13, obj.getComplemento());
+            stmt.setString(14, obj.getBairro());
+            stmt.setString(15, obj.getCidade());
+            stmt.setString(16, obj.getUf());
             
             stmt.execute();
             stmt.close();
@@ -54,24 +58,28 @@ public class ClienteDAO {
         }
     }
     
-    public void alterarCliente(Clientes obj){
+    
+     public void alterarFuncionarios(Funcionarios obj){
         try {
-            String sql = "UPDATE tb_clientes SET nome=?, rg=?, cpf=?, email=?, telefone=?, celular=?, cep=?, endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? WHERE id=?";
+            String sql = "UPDATE tb_funcionarios SET nome=?, rg=?, cpf=?, email=?, senha=?, cargo=?, nivel_acesso=?, telefone=?, celular=?, cep=?, endereco=?, numero=?, complemento=?, bairro=?, cidade=?, estado=? WHERE id=?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, obj.getNome());
             stmt.setString(2, obj.getRg());
             stmt.setString(3, obj.getCpf());
             stmt.setString(4, obj.getEmail());
-            stmt.setString(5, obj.getTelefone());
-            stmt.setString(6, obj.getCelular());
-            stmt.setString(7, obj.getCep());
-            stmt.setString(8, obj.getEndereco());
-            stmt.setInt(9, obj.getNumero());
-            stmt.setString(10, obj.getComplemento());
-            stmt.setString(11, obj.getBairro());
-            stmt.setString(12, obj.getCidade());
-            stmt.setString(13, obj.getUf());
-            stmt.setInt(14, obj.getId());
+            stmt.setString(5, obj.getSenha());
+            stmt.setString(6, obj.getCargo());
+            stmt.setString(7, obj.getNivel_acesso());
+            stmt.setString(8, obj.getTelefone());
+            stmt.setString(9, obj.getCelular());
+            stmt.setString(10, obj.getCep());
+            stmt.setString(11, obj.getEndereco());
+            stmt.setInt(12, obj.getNumero());
+            stmt.setString(13, obj.getComplemento());
+            stmt.setString(14, obj.getBairro());
+            stmt.setString(15, obj.getCidade());
+            stmt.setString(16, obj.getUf());
+            stmt.setInt(17, obj.getId());
             
             stmt.execute();
             stmt.close();
@@ -82,9 +90,9 @@ public class ClienteDAO {
         }
     }
     
-    public void excluirCliente(Clientes obj){
+    public void excluirFuncionarios(Funcionarios obj){
         try {
-            String sql = "DELETE FROM tb_clientes WHERE id=?";
+            String sql = "DELETE FROM tb_funcionarios WHERE id=?";
             
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, obj.getId());
@@ -98,23 +106,25 @@ public class ClienteDAO {
         }
     }
     
-    
-    public List<Clientes> listarClientes(){
+    public List<Funcionarios> listarFuncionarios(){
         try {
-            List<Clientes> lista = new ArrayList<>();
+            List<Funcionarios> lista = new ArrayList<>();
             
-            String sql = "SELECT * FROM tb_clientes";
+            String sql = "SELECT * FROM tb_funcionarios";
             PreparedStatement stmt = con.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()){
-                Clientes obj = new Clientes();
+                Funcionarios obj = new Funcionarios();
                 
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setRg(rs.getString("rg"));
                 obj.setCpf(rs.getString("cpf"));
                 obj.setEmail(rs.getString("email"));
+                obj.setSenha(rs.getString("senha"));
+                obj.setCargo(rs.getString("cargo"));
+                obj.setNivel_acesso(rs.getString("nivel_acesso"));
                 obj.setTelefone(rs.getString("telefone"));
                 obj.setCelular(rs.getString("celular"));
                 obj.setCep(rs.getString("cep"));
@@ -135,20 +145,23 @@ public class ClienteDAO {
         }
     }
     
-    public Clientes consultaPorNome(String nome){
+     public Funcionarios consultaPorNome(String nome){
         try {
-            String sql = "SELECT * FROM tb_clientes WHERE nome = ?";
+            String sql = "SELECT * FROM tb_funcionarios WHERE nome = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, nome);
             ResultSet rs = stmt.executeQuery();
             
-            Clientes obj = new Clientes();
+            Funcionarios obj = new Funcionarios();
             if(rs.next()){                
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setRg(rs.getString("rg"));
                 obj.setCpf(rs.getString("cpf"));
                 obj.setEmail(rs.getString("email"));
+                obj.setSenha(rs.getString("senha"));
+                obj.setCargo(rs.getString("cargo"));
+                obj.setNivel_acesso(rs.getString("nivel_acesso"));
                 obj.setTelefone(rs.getString("telefone"));
                 obj.setCelular(rs.getString("celular"));
                 obj.setCep(rs.getString("cep"));
@@ -162,29 +175,32 @@ public class ClienteDAO {
             return obj;
             
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Cliente nao encontrado");
+            JOptionPane.showMessageDialog(null, "Funcionario nao encontrado");
             return null;
         }
     }
     
     
-    public List<Clientes> buscaClientePorNome(String nome){
+    public List<Funcionarios> buscaFuncionariosPorNome(String nome){
         try {
-            List<Clientes> lista = new ArrayList<>();
+            List<Funcionarios> lista = new ArrayList<>();
             
-            String sql = "SELECT * FROM tb_clientes WHERE nome LIKE ?";
+            String sql = "SELECT * FROM tb_funcionarios WHERE nome LIKE ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, nome);
             ResultSet rs = stmt.executeQuery();
             
             while(rs.next()){
-                Clientes obj = new Clientes();
+                Funcionarios obj = new Funcionarios();
                 
                 obj.setId(rs.getInt("id"));
                 obj.setNome(rs.getString("nome"));
                 obj.setRg(rs.getString("rg"));
                 obj.setCpf(rs.getString("cpf"));
                 obj.setEmail(rs.getString("email"));
+                obj.setSenha(rs.getString("senha"));
+                obj.setCargo(rs.getString("cargo"));
+                obj.setNivel_acesso(rs.getString("nivel_acesso"));
                 obj.setTelefone(rs.getString("telefone"));
                 obj.setCelular(rs.getString("celular"));
                 obj.setCep(rs.getString("cep"));
@@ -203,26 +219,5 @@ public class ClienteDAO {
             return null;
             
         }
-    }
-    
-    public Clientes buscaCep(String cep) {
-       
-        WebServiceCep webServiceCep = WebServiceCep.searchCep(cep);
-       
-
-        Clientes obj = new Clientes();
-
-        if (webServiceCep.wasSuccessful()) {
-            obj.setEndereco(webServiceCep.getLogradouroFull());
-            obj.setCidade(webServiceCep.getCidade());
-            obj.setBairro(webServiceCep.getBairro());
-            obj.setUf(webServiceCep.getUf());
-            return obj;
-        } else {
-            JOptionPane.showMessageDialog(null, "Erro numero: " + webServiceCep.getResulCode());
-            JOptionPane.showMessageDialog(null, "Descrição do erro: " + webServiceCep.getResultText());
-            return null;
-        }
-
     }
 }
