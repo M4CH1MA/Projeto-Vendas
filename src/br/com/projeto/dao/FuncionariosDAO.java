@@ -7,6 +7,7 @@ package br.com.projeto.dao;
 import br.com.projeto.jdbc.ConnectionFactory;
 import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Funcionarios;
+import br.com.projeto.view.Frmlogin;
 import br.com.projeto.view.Frmmenu;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -132,6 +133,7 @@ public class FuncionariosDAO {
                 obj.setEndereco(rs.getString("endereco"));
                 obj.setNumero(rs.getInt("numero"));
                 obj.setComplemento(rs.getString("complemento"));
+                obj.setBairro(rs.getString("bairro"));
                 obj.setCidade(rs.getString("cidade"));
                 obj.setUf(rs.getString("estado"));
                 
@@ -241,6 +243,7 @@ public class FuncionariosDAO {
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Erro " + e);
+            new Frmlogin().setVisible(true);
         }
     }
 }
