@@ -140,10 +140,40 @@ public class ProdutosDAO {
     public Produtos consultaPorNome(String nome){
         try {
             List<Produtos> list = new ArrayList<>();
-            String sql = "select p.id, p.descricao, p.preco, p.qtd_estoque, f.nome from tb_produtos as p " +
-                         "inner join tb_fornecedores as f on (p.for_id = f.id) WHERE p.descricao = ?";
+            String sql = "select * from tb_produtos WHERE p.descricao = ?";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, nome);
+            ResultSet rs = stmt.executeQuery();
+            Produtos obj = new Produtos();
+            Fornecedores f = new Fornecedores();
+            
+            while(rs.next()){
+                
+                
+                obj.setId(rs.getInt("p.id"));
+                obj.setDescricao(rs.getString("p.descricao"));
+                obj.setPreco(rs.getDouble("p.preco"));
+                obj.setEstoque(rs.getInt("p.qtd_estoque"));
+                obj.setEstoque(rs.getInt("p.qtd_estoque"));
+                
+                f.setNome(rs.getString("f.nome"));
+                obj.setFornecedor(f);
+                list.add(obj);
+            }
+            return obj;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
+            return null;
+        }
+    }
+    
+    public Produtos buscaPorCodigo(int id){
+        try {
+            List<Produtos> list = new ArrayList<>();
+            String sql = "select p.id, p.descricao, p.preco, p.qtd_estoque, f.nome from tb_produtos as p " +
+                         "inner join tb_fornecedores as f on (p.for_id = f.id) WHERE p.id = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             Produtos obj = new Produtos();
             Fornecedores f = new Fornecedores();
