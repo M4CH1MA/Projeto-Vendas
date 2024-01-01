@@ -12,7 +12,7 @@ public class Produtos {
     private int id;
     private String descricao;
     private double preco;
-    private double estoque;
+    private int estoque;
     
     private Fornecedores fornecedor;
 
@@ -44,7 +44,7 @@ public class Produtos {
         return estoque;
     }
 
-    public void setEstoque(double estoque) {
+    public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
 

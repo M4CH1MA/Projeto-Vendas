@@ -386,7 +386,7 @@ public class FrmProdutos extends javax.swing.JFrame {
           obj.setId(Integer.parseInt(txtcodigo.getText()));
           obj.setDescricao(txtdescricao.getText());
           obj.setPreco(Double.parseDouble(txtpreco.getText()));
-          obj.setEstoque(Double.parseDouble(txtqtdestoque.getText()));
+          obj.setEstoque(Integer.parseInt(txtqtdestoque.getText()));
 
           Fornecedores f = new Fornecedores();
           f = (Fornecedores) cbfornecedor.getSelectedItem();
