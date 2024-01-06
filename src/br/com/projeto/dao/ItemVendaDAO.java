@@ -5,10 +5,16 @@
 package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConnectionFactory;
+import br.com.projeto.model.Clientes;
 import br.com.projeto.model.ItemVenda;
+import br.com.projeto.model.Produtos;
 import br.com.projeto.model.Vendas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -39,5 +45,34 @@ public class ItemVendaDAO {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro: " + e);
         } 
+    }
+    
+    public List<ItemVenda> listaItensPorVenda(int venda_id){
+        List<ItemVenda> list = new ArrayList<>();
+        try {
+            String sql = "SELECT p.descricao, i.qtd, p.preco, i.subtotal FROM tb_itensvendas AS i " +
+                          "INNER JOIN tb_produtos AS p ON(i.produto_id = p.id)  WHERE i.venda_id = ?;";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, venda_id);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                ItemVenda item = new ItemVenda();
+                Produtos prod = new Produtos();
+                //item.setId(rs.getInt("i.id"));
+                prod.setDescricao(rs.getString("p.descricao"));
+                item.setQtd(rs.getInt("i.qtd"));
+                prod.setPreco(rs.getDouble("p.preco"));
+                item.setSubtotal(rs.getDouble("i.subtotal"));
+                
+                item.setProduto(prod);
+                list.add(item);
+            }
+            return list;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
+            return null;
+        }
     }
 }

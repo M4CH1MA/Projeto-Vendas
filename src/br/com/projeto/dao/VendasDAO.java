@@ -5,10 +5,15 @@
 package br.com.projeto.dao;
 
 import br.com.projeto.jdbc.ConnectionFactory;
+import br.com.projeto.model.Clientes;
 import br.com.projeto.model.Vendas;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -57,4 +62,34 @@ public class VendasDAO {
         }
     }
     
+    //Metodo que filtra venda por datas
+    public List<Vendas> listarVendasPorPeriodo(LocalDate data_inicio, LocalDate data_fim){
+        try {
+            List<Vendas> list = new ArrayList<>();
+            String sql = "SELECT v.id, date_format(v.data_venda, '%d/%m/%y') as data_formatada, c.nome, v.total_venda, v.observacoes from tb_vendas AS v " +
+                         "INNER JOIN tb_clientes AS c on(v.cliente_id = c.id) WHERE v.data_venda BETWEEN ? AND ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, data_inicio.toString());
+            stmt.setString(2, data_fim.toString());
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            while(rs.next()){
+                Vendas obj = new Vendas();
+                Clientes c = new Clientes();
+                
+                obj.setId(rs.getInt("v.id"));
+                obj.setData_venda(rs.getString("data_formatada"));
+                c.setNome(rs.getString("c.nome"));
+                obj.setTotal_venda(rs.getDouble("v.total_venda"));
+                obj.setObs(rs.getString("v.observacoes"));
+                obj.setCliente(c);
+                list.add(obj);
+            }
+            return list;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
+            return null;
+        }
+    }
 }
