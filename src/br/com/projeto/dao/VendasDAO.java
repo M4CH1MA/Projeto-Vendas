@@ -92,4 +92,25 @@ public class VendasDAO {
             return null;
         }
     }
+    
+    //Tela TotalVenda 
+    public double retornaTotalVendaPorData(LocalDate data_venda){
+        try {
+            double total_venda = 0;
+        
+            String sql = "SELECT SUM(total_venda) AS total FROM tb_vendas WHERE data_venda = ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setString(1, data_venda.toString());
+            ResultSet rs = stmt.executeQuery();
+        
+            if(rs.next()){
+                total_venda = rs.getDouble("total");
+            }
+            
+            return total_venda;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        
+    }
 }

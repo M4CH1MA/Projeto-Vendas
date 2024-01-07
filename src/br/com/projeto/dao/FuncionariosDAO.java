@@ -233,11 +233,27 @@ public class FuncionariosDAO {
             ResultSet rs = stmt.executeQuery();
             
             if(rs.next()){
-                JOptionPane.showMessageDialog(null, "Voce foi logado com sucesso");
                 
-                Frmmenu tela = new Frmmenu();
-                tela.usuarioLogado = rs.getString("nome");
-                tela.setVisible(true);
+                //Valida o nivel de acesso do sistema
+                if(rs.getString("nivel_acesso").equals("Administrador")){
+                    //Admin
+                    JOptionPane.showMessageDialog(null, "Voce foi logado com sucesso");
+                
+                    Frmmenu tela = new Frmmenu();
+                    tela.usuarioLogado = rs.getString("nome");
+                    tela.setVisible(true);
+                }else if(rs.getString("nivel_acesso").equals("Usuario")){
+                    //User
+                    JOptionPane.showMessageDialog(null, "Voce foi logado com sucesso");
+                
+                    Frmmenu tela = new Frmmenu();
+                    tela.usuarioLogado = rs.getString("nome");
+                    tela.menu_posicao.setEnabled(false);
+                    tela.menu_controlevendas.setEnabled(false);
+                    tela.setVisible(true);
+                }
+                
+                
             }else{
                 JOptionPane.showMessageDialog(null, "Senha ou email invalidos");
             }
