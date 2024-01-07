@@ -32,7 +32,7 @@ public class ProdutosDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, obj.getDescricao());
             stmt.setDouble(2, obj.getPreco());
-            stmt.setDouble(3, obj.getEstoque());
+            stmt.setInt(3, obj.getEstoque());
             stmt.setInt(4, obj.getFornecedor().getId());
             
             stmt.execute();
@@ -61,7 +61,7 @@ public class ProdutosDAO {
                 obj.setDescricao(rs.getString("p.descricao"));
                 obj.setPreco(rs.getDouble("p.preco"));
                 obj.setEstoque(rs.getInt("p.qtd_estoque"));
-                obj.setEstoque(rs.getInt("p.qtd_estoque"));
+                //obj.setEstoque(rs.getInt("p.qtd_estoque"));
                 
                 f.setNome(rs.getString("f.nome"));
                 obj.setFornecedor(f);
@@ -80,7 +80,7 @@ public class ProdutosDAO {
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setString(1, obj.getDescricao());
             stmt.setDouble(2, obj.getPreco());
-            stmt.setDouble(3, obj.getEstoque());
+            stmt.setInt(3, obj.getEstoque());
             stmt.setInt(4, obj.getFornecedor().getId());
             stmt.setInt(5, obj.getId());
             stmt.execute();
@@ -125,7 +125,7 @@ public class ProdutosDAO {
                 obj.setDescricao(rs.getString("p.descricao"));
                 obj.setPreco(rs.getDouble("p.preco"));
                 obj.setEstoque(rs.getInt("p.qtd_estoque"));
-                obj.setEstoque(rs.getInt("p.qtd_estoque"));
+                //obj.setEstoque(rs.getInt("p.qtd_estoque"));
                 
                 f.setNome(rs.getString("f.nome"));
                 obj.setFornecedor(f);
@@ -229,6 +229,20 @@ public class ProdutosDAO {
             return qtd_estoque;
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+    
+    //Metodo para adicionar estoque
+    public void adicionarEstoque(int id, int qtd_nova){
+        try {
+            String sql = "UPDATE tb_produtos SET qtd_estoque = ? WHERE id= ?";
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, qtd_nova);
+            stmt.setInt(2, id);
+            stmt.execute();
+            stmt.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro: " + e);
         }
     }
 }

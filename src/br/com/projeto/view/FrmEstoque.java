@@ -7,6 +7,7 @@ package br.com.projeto.view;
 import br.com.projeto.dao.ProdutosDAO;
 import br.com.projeto.model.Produtos;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -14,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
  * @author jonathan
  */
 public class FrmEstoque extends javax.swing.JFrame {
+    
+    int idproduto,qtd_nova;
 
     public void listar() {
         ProdutosDAO dao = new ProdutosDAO();
@@ -55,7 +58,7 @@ public class FrmEstoque extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtqtd = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnadicionar = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaProdutos = new javax.swing.JTable();
@@ -107,7 +110,12 @@ public class FrmEstoque extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Adicionar");
+        btnadicionar.setText("Adicionar");
+        btnadicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnadicionarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -130,7 +138,7 @@ public class FrmEstoque extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btnadicionar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -147,7 +155,7 @@ public class FrmEstoque extends javax.swing.JFrame {
                     .addComponent(txtestoque, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(txtqtd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(btnadicionar))
                 .addContainerGap(53, Short.MAX_VALUE))
         );
 
@@ -241,9 +249,30 @@ public class FrmEstoque extends javax.swing.JFrame {
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
         // Clicar em um item da tabela
+        idproduto = Integer.parseInt(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0).toString());
+        txtdescricao.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1).toString());
         txtestoque.setText(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3).toString());
+        System.out.println(idproduto    );
         
     }//GEN-LAST:event_tabelaProdutosMouseClicked
+
+    private void btnadicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnadicionarActionPerformed
+        // Botao Adicionar
+        try {
+            int qtd_estoque, qtd;
+            qtd_estoque = Integer.parseInt(txtestoque.getText());
+            qtd = Integer.parseInt(txtqtd.getText());
+            
+            qtd_nova = qtd_estoque + qtd;
+           
+            ProdutosDAO daop = new ProdutosDAO();
+            daop.adicionarEstoque(idproduto, qtd_nova);
+            
+            JOptionPane.showMessageDialog(null, "Estoque atualizado");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Selecione o produto ou informe a nova qtd" + e);
+        }
+    }//GEN-LAST:event_btnadicionarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -281,8 +310,8 @@ public class FrmEstoque extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnadicionar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

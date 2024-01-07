@@ -40,7 +40,7 @@ public class Produtos {
         this.preco = preco;
     }
 
-    public double getEstoque() {
+    public int getEstoque() {
         return estoque;
     }
 
